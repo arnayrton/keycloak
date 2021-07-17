@@ -51,6 +51,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.keycloak.protocol.oidc.OIDCLoginProtocol.ID_TOKEN_HINT;
 import static org.keycloak.protocol.oidc.OIDCLoginProtocol.LOGIN_HINT_PARAM;
@@ -109,6 +111,8 @@ public class BackchannelAuthenticationEndpoint extends AbstractCibaEndpoint {
                         .build();
             }
         } catch (Exception e) {
+			Logger logger = Logger.getAnonymousLogger();
+			logger.log(Level.SEVERE, "processGrantRequest - Failed to send authentication request", e);
             throw new ErrorResponseException(OAuthErrorException.SERVER_ERROR, "Failed to send authentication request", Response.Status.SERVICE_UNAVAILABLE);
         }
 
